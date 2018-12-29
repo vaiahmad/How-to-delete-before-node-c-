@@ -1,0 +1,125 @@
+#include <iostream>
+#include <conio.h>
+using namespace std;
+
+struct node{
+    int data;
+    node *next;
+};
+node *head, *deel, *insert, *searchh;
+int x;
+//Function for showing data linked list
+void shoow(){
+    node *helpp;
+    helpp = head;
+    while(helpp!=NULL){
+        cout<<helpp->data<<" ";
+        helpp=helpp->next;
+    }
+    cout<<endl;
+}
+int main(){
+    //Manual single linked list
+    head = new node;
+    head->data=10;
+    head->next = new node;
+    head->next->data = 20;
+    head->next->next = new node;
+    head->next->next->data = 40;
+    head->next->next->next = NULL;
+
+    cout<<"Data : ";
+    shoow();
+
+    //Insert on beginning node
+    insert = new node;
+    insert->data = 5;
+    insert->next = head;
+    head = insert;
+
+    cout<<"Data after insert beginning node : ";
+    shoow();
+
+    //Insert after node certain (x)
+    x = 20;
+    insert = new node;
+    insert->data = 35;
+    insert->next = NULL;
+    node *after;
+    after = head;
+    while((after->data != x)&&(after->next != NULL)){
+        after=after->next;
+    }
+    if(after->data == x){
+        insert->next = after->next;
+        after->next = insert;
+    }else{
+        cout<<"x not found"<<endl;
+    }
+    cout<<"Data after insert after node 20 : ";
+    shoow();
+
+    //Insert before node certain (x)
+    x = 10;
+    insert = new node;
+    insert->data = 8;
+    insert->next = NULL;
+    node *before, *prevbefore;
+    if(head->data == x){
+        insert->next=head;
+        head = insert;
+    }else{
+        before = head;
+        do{
+            prevbefore = before;
+            before = before->next;
+        }while(before->data !=x);
+        insert->next = before;
+        prevbefore->next = insert;
+    }
+    cout<<"Data after insert before node 10 : ";
+    shoow();
+
+    //Insert last node
+    insert = new node;
+    insert->data = 45;
+    insert->next = NULL;
+    node *tail;
+    tail = head;
+    do{
+        tail = tail->next;
+    }while(tail->next != NULL);
+    tail->next = insert;
+    tail = tail->next;
+    cout<<"Data after insert last node : ";
+    shoow();
+
+    cout<<"\n --------------------------------------- \n\n";
+    //Delete beginning node
+    deel = head;
+    head = head->next;
+    deel->next = NULL;
+    delete deel;
+    cout<<"Data after delete beginning node : ";
+    shoow();
+
+    //Delete before node
+    cout<<"Input data : "; cin>>x;
+    if(head->data == x){
+        deel->next = head;
+        head = deel;
+    }else{
+        before = head;
+        do{
+            prevbefore = before;
+            before = before->next;
+        }while(before->data != x);
+        deel = before->next;
+        prevbefore->next = before->next;
+        before->next = NULL;
+        delete deel;
+    }
+    cout<<"Data after delete node before "<<x<<" : ";
+    shoow();
+    getch();
+}
